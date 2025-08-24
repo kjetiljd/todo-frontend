@@ -11,22 +11,22 @@ help:
 build: ## Install dependencies
 	npm install
 
-test: ## Run unit tests
+test: build ## Run tests
 	npm test
 
-dev: ## Start development server with hot reload
+dev: install ## Start development server with hot reload
 	npm run dev
 
-dev-mock: ## Start development server with mock API
+dev-mock: install ## Start development server with mock API
 	npm run dev:mock
 
-build-prod: ## Build production bundle with TypeScript checking
+build-prod: install ## Build production bundle with TypeScript checking
 	npm run build
 
-build-fast: ## Build production bundle without TypeScript checking
+build-fast: install ## Build production bundle without TypeScript checking
 	npm run build:fast
 
-preview: ## Preview production build locally
+preview: install ## Preview production build locally
 	npm run preview
 
 build-docker: ## Build Docker image
