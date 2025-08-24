@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import TodoForm from '../TodoForm.vue'
 import type { Todo } from '@/types/todo'
 
@@ -27,10 +27,10 @@ describe('TodoForm', () => {
     it('has empty form fields initially', () => {
       const wrapper = mount(TodoForm)
       
-      expect(wrapper.find('#title').element.value).toBe('')
-      expect(wrapper.find('#description').element.value).toBe('')
-      expect(wrapper.find('#priority').element.value).toBe('medium')
-      expect(wrapper.find('#dueDate').element.value).toBe('')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('')
+      expect((wrapper.find('#priority').element as HTMLSelectElement).value).toBe('medium')
+      expect((wrapper.find('#dueDate').element as HTMLInputElement).value).toBe('')
     })
 
     it('emits submit event with form data when submitted', async () => {
@@ -44,7 +44,7 @@ describe('TodoForm', () => {
       await wrapper.find('form').trigger('submit.prevent')
       
       expect(wrapper.emitted('submit')).toBeTruthy()
-      expect(wrapper.emitted('submit')[0]).toEqual([{
+      expect(wrapper.emitted('submit')![0]).toEqual([{
         title: 'New Todo',
         description: 'New description',
         priority: 'high',
@@ -60,7 +60,7 @@ describe('TodoForm', () => {
       
       await wrapper.find('form').trigger('submit.prevent')
       
-      expect(wrapper.emitted('submit')[0]).toEqual([{
+      expect(wrapper.emitted('submit')![0]).toEqual([{
         title: 'New Todo',
         priority: 'low'
       }])
@@ -74,10 +74,10 @@ describe('TodoForm', () => {
       
       await wrapper.find('form').trigger('submit.prevent')
       
-      expect(wrapper.find('#title').element.value).toBe('')
-      expect(wrapper.find('#description').element.value).toBe('')
-      expect(wrapper.find('#priority').element.value).toBe('medium')
-      expect(wrapper.find('#dueDate').element.value).toBe('')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('')
+      expect((wrapper.find('#priority').element as HTMLSelectElement).value).toBe('medium')
+      expect((wrapper.find('#dueDate').element as HTMLInputElement).value).toBe('')
     })
   })
 
@@ -98,10 +98,10 @@ describe('TodoForm', () => {
         props: { editingTodo: mockTodo }
       })
       
-      expect(wrapper.find('#title').element.value).toBe('Test Todo')
-      expect(wrapper.find('#description').element.value).toBe('Test description')
-      expect(wrapper.find('#priority').element.value).toBe('high')
-      expect(wrapper.find('#dueDate').element.value).toBe('2024-01-15')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('Test Todo')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('Test description')
+      expect((wrapper.find('#priority').element as HTMLSelectElement).value).toBe('high')
+      expect((wrapper.find('#dueDate').element as HTMLInputElement).value).toBe('2024-01-15')
     })
 
     it('handles editing todo with missing optional fields', () => {
@@ -115,8 +115,8 @@ describe('TodoForm', () => {
         props: { editingTodo: todoWithoutOptionals }
       })
       
-      expect(wrapper.find('#description').element.value).toBe('')
-      expect(wrapper.find('#dueDate').element.value).toBe('')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('')
+      expect((wrapper.find('#dueDate').element as HTMLInputElement).value).toBe('')
     })
 
     it('emits submit event with updated data in edit mode', async () => {
@@ -128,7 +128,7 @@ describe('TodoForm', () => {
       await wrapper.find('form').trigger('submit.prevent')
       
       expect(wrapper.emitted('submit')).toBeTruthy()
-      expect(wrapper.emitted('submit')[0]).toEqual([{
+      expect(wrapper.emitted('submit')![0]).toEqual([{
         title: 'Updated Todo',
         description: 'Test description',
         priority: 'high',
@@ -154,7 +154,7 @@ describe('TodoForm', () => {
       await wrapper.find('#title').setValue('Updated Todo')
       await wrapper.find('form').trigger('submit.prevent')
       
-      expect(wrapper.find('#title').element.value).toBe('Updated Todo')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('Updated Todo')
     })
   })
 
@@ -162,12 +162,12 @@ describe('TodoForm', () => {
     it('updates form when editingTodo prop changes', async () => {
       const wrapper = mount(TodoForm)
       
-      expect(wrapper.find('#title').element.value).toBe('')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('')
       
       await wrapper.setProps({ editingTodo: mockTodo })
       
-      expect(wrapper.find('#title').element.value).toBe('Test Todo')
-      expect(wrapper.find('#description').element.value).toBe('Test description')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('Test Todo')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('Test description')
     })
 
     it('resets form when editingTodo prop changes to null', async () => {
@@ -175,13 +175,13 @@ describe('TodoForm', () => {
         props: { editingTodo: mockTodo }
       })
       
-      expect(wrapper.find('#title').element.value).toBe('Test Todo')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('Test Todo')
       
       await wrapper.setProps({ editingTodo: null })
       
-      expect(wrapper.find('#title').element.value).toBe('')
-      expect(wrapper.find('#description').element.value).toBe('')
-      expect(wrapper.find('#priority').element.value).toBe('medium')
+      expect((wrapper.find('#title').element as HTMLInputElement).value).toBe('')
+      expect((wrapper.find('#description').element as HTMLTextAreaElement).value).toBe('')
+      expect((wrapper.find('#priority').element as HTMLSelectElement).value).toBe('medium')
     })
   })
 
