@@ -8,8 +8,8 @@ CONTAINER_NAME ?= todo-frontend
 help:
 	 @echo "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
 
-build: ## Install dependencies (clean, reproducible)
-	npm ci
+build: ## Install dependencies
+	npm install
 
 test: ## Run unit tests
 	npm test
